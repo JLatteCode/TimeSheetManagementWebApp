@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+     >
+
+   <h:head>
+      <title>#{msgs.heading_login}</title>
+      <h:outputStylesheet library="css" name="primeflex.min.css"/>
+      <h:outputStylesheet  library="css" name="styles.css"/>
+      <h:outputStylesheet  library="css" name="primeicons.css"/>
+      <h:outputStylesheet  library="css" name="styleslogin.css"/>
+   </h:head>
+   <h:body>
+
+
+      <h:form>
+         <div class="center">
+         <p> Katherine, Jung Jae Lee</p>
+      
+        
+         #{msgs.typeID}
+         <h:inputText value="#{empManager.credential.userName}"/>
+         <br></br>
+         #{msgs.typePW}
+         <h:inputText value="#{empManager.credential.password}"/>
+        
+        <br></br>
+         <h:commandButton value="Login" action="#{empManager.login}"/>
+         </div>
+      </h:form>
+
+
+
+   </h:body>
+</html>

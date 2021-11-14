@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+   <h:head>
+   		<title>IGNORED</title>
+   		<h:outputStylesheet library="css" name="primeflex.min.css"/>
+        <h:outputStylesheet library="css" name="styles.css"/>
+        <h:outputStylesheet library="css" name="primeicons.css"/>
+   </h:head>
+   <h:body>
+      <ui:composition template="/templates/masterLayout.xhtml">
+         <ui:define name="header">
+           <h2> Time sheet list</h2>
+      	</ui:define>
+
+         <ui:define name="content">
+             <div id="timesheetFormContainer">
+            	<h:form class="timesheetForm">
+            		<div style="margin-top: 20px; margin-bottom: 10px">
+            			<h:commandButton 
+            				value="New timesheet" 
+            				action="#{timesheetManager.addTimesheet}"
+            				style="color: white; background-color: #3CBC8D;"/>
+            		</div>
+	            	
+            		<p:dataTable id="timesheetTable" 
+            			value="#{timesheetManager.timesheets}"
+            			var="timesheet">
+            			
+            			<p:column headerText="#{msgs.weekNumber}">
+            				<h:outputText value="#{timesheet.weekNumber}"/>
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.employee}">
+            				<h:outputText value="#{timesheet.employee.name}" />
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.view}">
+            				<p:commandButton 
+            					value="#{msgs.view}" 
+            					action="#{timesheetManager.viewTimesheet(timesheet)}" 
+            					styleClass="ui-button-flat" />
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.edit}">
+            			<p:commandButton 
+            					value="#{msgs.edit}" 
+            					action="#{timesheetManager.editTimesheet(timesheet)}" 
+            					styleClass="ui-button-flat" />
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.delete}">
+	            			<p:commandButton 
+	            				action="#{timesheetManager.deleteTimesheet(timesheet)}"
+	            				value="#{msgs.delete}" 
+	            				styleClass="ui-button-danger ui-button-flat" />
+            			</p:column>
+            		</p:dataTable>
+            	</h:form>
+            </div> 
+         </ui:define>
+      </ui:composition>
+   </h:body>
+</html>

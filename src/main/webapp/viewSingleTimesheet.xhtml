@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+   <h:head>
+   		<title>IGNORED</title>
+   		<h:outputStylesheet library="css" name="primeflex.min.css"/>
+        <h:outputStylesheet library="css" name="styles.css"/>
+        <h:outputStylesheet library="css" name="primeicons.css"/>
+   	</h:head>
+   <h:body>
+      <ui:composition template="/templates/masterLayout.xhtml">
+         <ui:define name="header">
+           <h2>Time Sheet</h2>
+      	 </ui:define>
+
+         <ui:define name="heading">
+            <ui:include src="/sections/header.xhtml"/>
+         </ui:define>
+
+         <ui:define name="sidebarLeft">
+            <ui:include src="/sections/sidebarLeft.topBar.xhtml"/>
+         </ui:define>
+
+         <ui:define name="content">
+              <div id="timesheetFormContainer">
+            	<h:form class="timesheetForm">
+	            	<div id="weekInfo" style="margin-top: 20px; margin-bottom: 20px;">
+		            	<h:panelGrid columns="2">
+		            		#{msgs.weekEnd}
+		            		<h:outputText value="#{timesheetManager.displayedTimesheet.weekEnding}"/>
+		            	</h:panelGrid>
+	            	</div>
+            		<p:dataTable 
+            			id="timesheetTable" 
+            			value="#{timesheetManager.displayedTimesheet.details}"
+            			var="timesheetRow">
+            			
+            			<p:column headerText="#{msgs.project}">
+            				<h:outputText value="#{timesheetRow.projectId}"/>
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.wp}">
+            				<h:outputText value="#{timesheetRow.workPackageId}" />
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.total}">
+            				<h:outputText value="#{timesheetRow.totalWeekHours}" />
+            			</p:column>
+            		
+            			<p:column headerText="#{msgs.sat}">
+            				<h:outputText value="#{timesheetRow.hoursPerDay[0]}"/>
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.sun}">
+            				<h:outputText value="#{timesheetRow.hoursPerDay[1]}"/>
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.mon}">
+            				<h:outputText value="#{timesheetRow.hoursPerDay[2]}"/>
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.tue}">
+            				<h:outputText value="#{timesheetRow.hoursPerDay[3]}" />
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.wed}">
+            				<h:outputText value="#{timesheetRow.hoursPerDay[4]}"/>
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.thu}">
+            				<h:outputText value="#{timesheetRow.hoursPerDay[5]}" />
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.fri}">
+            				<h:outputText value="#{timesheetRow.hoursPerDay[6]}" />
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.notes}">
+            				<f:facet name="header">#{msgs.notes}</f:facet>
+            				<h:outputText value="#{timesheetRow.notes}" />
+            			</p:column>
+            		</p:dataTable>
+            		<h4>#{msgs.summaryHours}</h4>
+            		<p:panelGrid columns="2">
+				        #{msgs.saturday}
+				        <h:outputText value="#{timesheetManager.hourSummary[0]}"/>
+				        
+				        #{msgs.sunday}
+				        <h:outputText value="#{timesheetManager.hourSummary[1]}"/>
+				        
+				        #{msgs.monday}
+				        <h:outputText value="#{timesheetManager.hourSummary[2]}"/>
+				        
+				        #{msgs.tuesday}
+				        <h:outputText value="#{timesheetManager.hourSummary[3]}"/>
+				        
+				        #{msgs.wednesday}
+				        <h:outputText value="#{timesheetManager.hourSummary[4]}"/>
+				        
+				        #{msgs.thursday}
+				        <h:outputText value="#{timesheetManager.hourSummary[5]}"/>
+				        
+				        #{msgs.friday}
+				        <h:outputText value="#{timesheetManager.hourSummary[6]}"/>
+				        
+				        #{msgs.total}
+				        <h:outputText value="#{timesheetManager.hourSummary[7]}"/>
+				    </p:panelGrid>
+				    
+            		<h:commandButton 
+            			value="#{msgs.edit}" 
+            			action="#{timesheetManager.editTimesheet(timesheetManager.displayedTimesheet)}"
+            			style="color: white; background-color: #3CBC8D;margin-top: 20px"/>
+            	</h:form>
+            </div> 
+         </ui:define>
+      </ui:composition>
+   </h:body>
+</html>

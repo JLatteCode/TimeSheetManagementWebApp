@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:outputStylesheet library="css" name="primeflex.min.css"/>
+<h:outputStylesheet  library="css" name="styles.css"/>
+<h:outputStylesheet  library="css" name="primeicons.css"/>
+
+   <h:head> <title><ui:insert name="windowTitle"/></title></h:head>
+   
+   <h:body>
+
+      <div id="div_topBar">
+         <ui:insert name="topBar">
+            <ui:include src="/sections/topBar.xhtml"/>
+         </ui:insert>
+      </div>
+
+      <div id="div_header">
+         <ui:insert name="header">
+            <ui:include src="/sections/header.xhtml"/>
+         </ui:insert>
+      </div>
+
+      <div id="div_content">
+         <ui:insert name="content">
+            <ui:include src="/sections/content.xhtml"/>
+         </ui:insert>
+      </div>
+
+   </h:body>
+</html>

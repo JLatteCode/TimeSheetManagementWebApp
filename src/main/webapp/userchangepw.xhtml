@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head><title>IGNORED</title></h:head>
+<h:body>
+    <ui:composition template="/templates/masterLayout.xhtml">
+        <ui:define name="windowTitle">
+            #{msgs.title}
+        </ui:define>
+
+        <ui:define name="header">
+
+            <h1>
+            Type a new Password for change.
+
+            </h1>
+
+        </ui:define>
+
+
+        <ui:define name="content">
+
+
+            <h:form>
+
+                <h:inputText id="editPassword" value="#{empManager.password}"/>
+                <br></br>
+                <h:commandButton id = "editcreateuser" value="Change"
+                                 action="#{empManager.editEmployee(empManager.currentEmployee.empNumber)}"/>
+            </h:form>
+
+
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

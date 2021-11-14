@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config version="2.3" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd">
+   <application>
+      <locale-config>
+         <default-locale>en</default-locale>
+         <supported-locale>de</supported-locale>
+      </locale-config>
+      <resource-bundle>
+         <base-name>messages</base-name>
+         <var>msgs</var>
+      </resource-bundle>
+      
+      <navigation-rule>
+	      <from-view-id>*</from-view-id>
+	      <navigation-case>
+	         <from-outcome>viewTimesheet</from-outcome>
+	         <to-view-id>/viewSingleTimesheet.xhtml</to-view-id>
+	      </navigation-case>
+	      <navigation-case>
+	         <from-outcome>editTimesheet</from-outcome>
+	         <to-view-id>/enterTimesheet.xhtml</to-view-id>
+	      </navigation-case>
+	      <navigation-case>
+	         <from-outcome>timesheetList</from-outcome>
+	         <to-view-id>/timesheetView.xhtml</to-view-id>
+	      </navigation-case>
+	   </navigation-rule>
+	   
+      <navigation-rule>
+	      <from-view-id>/timesheetView.xhtml</from-view-id>
+	      <navigation-case>
+	         <from-action>#{timesheetManager.viewTimesheet(timesheet)}</from-action>
+	         <from-outcome>viewTimesheet</from-outcome>
+	         <to-view-id>/viewSingleTimesheet.xhtml</to-view-id>
+	      </navigation-case>
+	      <navigation-case>
+	      	 <from-action>#{timesheetManager.addTimesheet}</from-action>
+	      	 <from-action>#{timesheetManager.editTimesheet(timesheet)}</from-action>
+	         <from-outcome>editTimesheet</from-outcome>
+	         <to-view-id>/enterTimesheet.xhtml</to-view-id>
+	      </navigation-case>
+	      <navigation-case>
+	      	<from-action>#{timesheetManager.deleteTimesheet(timesheet)}</from-action>
+	         <from-outcome>timesheetList</from-outcome>
+	         <to-view-id>/timesheetView.xhtml</to-view-id>
+	         <redirect>
+	            <view-param>
+	                <name>faces-redirect</name>
+	                <value>true</value>
+	            </view-param>
+	        </redirect>
+	      </navigation-case>
+	   </navigation-rule>
+	   
+	   <navigation-rule>
+	      <from-view-id>/enterTimesheet.xhtml</from-view-id>
+	      <navigation-case>
+	      	 <from-action>#{timesheetManager.saveTimesheet}</from-action>
+	         <from-outcome>viewTimesheet</from-outcome>
+	         <to-view-id>/viewSingleTimesheet.xhtml</to-view-id>
+	      </navigation-case>
+	      <navigation-case>
+	     	 <from-action>#{timesheetManager.addRowToDisplayedTimesheet}</from-action>
+	         <from-outcome>editTimesheet</from-outcome>
+	         <to-view-id>/enterTimesheet.xhtml</to-view-id>
+	         <redirect>
+	            <view-param>
+	                <name>faces-redirect</name>
+	                <value>true</value>
+	            </view-param>
+	        </redirect>
+	      </navigation-case>
+	      <navigation-case>
+	         <from-outcome>timesheetList</from-outcome>
+	         <to-view-id>/timesheetView.xhtml</to-view-id>
+	      </navigation-case>
+	   </navigation-rule>
+	   
+	   <navigation-rule>
+	      <from-view-id>/viewSingleTimesheet.xhtml</from-view-id>
+	      <navigation-case>
+	      	 <from-action>#{timesheetManager.editTimesheet(timesheetManager.displayedTimesheet)}</from-action>
+	         <from-outcome>editTimesheet</from-outcome>
+	         <to-view-id>/enterTimesheet.xhtml</to-view-id>
+	      </navigation-case>
+	      <navigation-case>
+	         <from-outcome>timesheetList</from-outcome>
+	         <to-view-id>/timesheetView.xhtml</to-view-id>
+	      </navigation-case>
+	   </navigation-rule>
+   </application>
+
+   
+   <navigation-rule> 
+   <from-view-id>/login.xhtml</from-view-id>
+   
+   <navigation-case> 
+      <from-action>#{empManager.login}</from-action>
+      <from-outcome>homePage</from-outcome>
+      <to-view-id>/timesheetView.xhtml</to-view-id>
+   </navigation-case> 
+   
+   <navigation-case> 
+      <from-action>#{empManager.login}</from-action>
+      <from-outcome>login</from-outcome>
+      <to-view-id>/login.xhtml</to-view-id>
+   </navigation-case> 
+
+</navigation-rule> 
+
+</faces-config>

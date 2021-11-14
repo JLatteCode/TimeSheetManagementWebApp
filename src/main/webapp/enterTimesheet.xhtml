@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+   <h:head>
+   		<title>IGNORED</title>
+   		<h:outputStylesheet library="css" name="primeflex.min.css"/>
+        <h:outputStylesheet library="css" name="styles.css"/>
+        <h:outputStylesheet library="css" name="primeicons.css"/>
+   	</h:head>
+   <h:body>
+      <ui:composition template="/templates/masterLayout.xhtml">
+         <ui:define name="windowTitle">
+            #{msgs.title}
+         </ui:define>
+
+         <ui:define name="content">
+             <div id="timesheetFormContainer">
+            	<h:form class="timesheetForm">
+	            	<div id="weekInfo" style="margin-bottom: 20px; margin-top: 20px;">
+		            	<p:panelGrid columns="4" styleClass="ui-noborder">
+		            		#{msgs.weekNumber}
+		            		<h:outputText value="#{timesheetManager.displayedTimesheet.weekNumber}"/>
+		            		#{msgs.weekEnd}
+		            		<p:datePicker 
+		            			id="datePickerButton"
+		            			value="#{timesheetManager.displayedTimesheet.endDate}"
+		            			showIcon="true"/>
+		            			
+		            		#{msgs.eNumber}
+		            		<h:outputText value="#{timesheetManager.employeeManager.getCurrentEmployee().empNumber}"/>
+		            		#{msgs.name}
+		            		<h:outputText value="#{timesheetManager.employeeManager.getCurrentEmployee().name}"/>
+		            	</p:panelGrid>
+	            	</div>
+	            	
+            		<p:dataTable id="timesheetTable" 
+            			value="#{timesheetManager.displayedTimesheet.details}"
+            			var="timesheetRow">
+            			
+            			<p:column headerText="#{msgs.project}">
+            				<p:inputNumber
+            					id="project"
+            					value="#{timesheetRow.projectId}"
+            					required="true"/>
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.wp}">
+            				<p:inputText
+            					id="wp"
+            					value="#{timesheetRow.workPackageId}"
+            					required="true" />
+            			</p:column>
+            		
+            			<p:column headerText="#{msgs.sat}">
+            				<p:inputNumber 
+            					id="sat"
+            					value="#{timesheetRow.hoursPerDay[0]}" 
+            					emptyValue="0.0"
+            					minValue="0.0"
+            					maxValue="24.0"/>
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.sun}">
+            				<p:inputNumber 
+            					id="sun"
+            					value="#{timesheetRow.hoursPerDay[1]}" 
+            					emptyValue="0.0"
+            					minValue="0.0"
+            					maxValue="24.0"/>
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.mon}">
+            				<p:inputNumber 
+            					id="mon"
+            					value="#{timesheetRow.hoursPerDay[2]}" 
+            					emptyValue="0.0"
+            					minValue="0.0"
+            					maxValue="24.0"/>
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.tue}">
+            				<p:inputNumber 
+            					id="tue"
+            					value="#{timesheetRow.hoursPerDay[3]}" 
+            					emptyValue="0.0"
+            					minValue="0.0"
+            					maxValue="24.0"/>
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.wed}">
+            				<p:inputNumber 
+            					id="wed"
+            					value="#{timesheetRow.hoursPerDay[4]}" 
+            					emptyValue="0.0"
+            					minValue="0.0"
+            					maxValue="24.0"/>
+            			</p:column>
+            		
+            			<p:column headerText="#{msgs.thu}">
+            				<p:inputNumber 
+            					id="thu"
+            					value="#{timesheetRow.hoursPerDay[5]}" 
+            					emptyValue="0.0"
+            					minValue="0.0"
+            					maxValue="24.0"/>
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.fri}">
+            				<f:facet name="header">#{msgs.fri}</f:facet>
+            				<p:inputNumber 
+            					id="fri"
+            					value="#{timesheetRow.hoursPerDay[6]}" 
+            					emptyValue="0.0"
+            					minValue="0.0"
+            					maxValue="24.0"/>
+            			</p:column>
+            			
+            			<p:column headerText="#{msgs.notes}">
+            				<p:inputText 
+            					id="notes" 
+            					style="width: 100%" 
+            					value="#{timesheetRow.notes}" />
+            			</p:column>
+            		</p:dataTable>
+            		<div style="margin-top: 20px">
+	            		<p:commandButton 
+	            			value="#{msgs.addRow}" 
+	            			action="#{timesheetManager.addRowToDisplayedTimesheet}"
+	            			style="color: white; background-color: #3CBC8D;"/>
+						<p:commandButton 
+							value="#{msgs.save}" 
+							action="#{timesheetManager.saveTimesheet}" 
+							style="margin-left: 10px; color: white; background-color: #3CBC8D;"/>
+            		</div>
+            	</h:form>
+            	</div>
+         </ui:define>
+      </ui:composition>
+   </h:body>
+</html>

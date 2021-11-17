@@ -4,9 +4,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.corejsf.employee.*;
 
@@ -130,6 +132,7 @@ public class Timesheet implements java.io.Serializable {
      */
     public void setEndDate(final LocalDate end) {
         endDate = end.with(TemporalAdjusters.nextOrSame(DayOfWeek.FRIDAY));
+        setWeekNumber(endDateToWeekNumber(), 2021);
     }
 
     /**
@@ -370,6 +373,13 @@ public class Timesheet implements java.io.Serializable {
             result += '\n' + tsr.toString();
         }
         return result;
+    }
+    
+    public int endDateToWeekNumber() {
+        LocalDate endDate = getEndDate();
+        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear(); 
+        int weekNumber = endDate.get(woy);
+        return weekNumber;
     }
 
 }

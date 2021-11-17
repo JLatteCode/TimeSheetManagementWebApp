@@ -64,7 +64,7 @@ public class TimesheetBean implements Serializable {
                   r.setWeekNumber(weekNumber);
                   tSheet.setWeekNumber(weekNumber, tSheet.getEndDate().getYear());
                   tSheet.getDetails().add(r);
-                  System.out.println("week number hi 1:" + r.getNotes());
+                  
                   while (result.next() && (result.getInt(13) == tSheet.getWeekNumber())){
                       int projectNumNext = result.getInt(2);
                       String wpNext = result.getString(3);
@@ -81,7 +81,7 @@ public class TimesheetBean implements Serializable {
                       TimesheetRow rNext = new TimesheetRow(projectNumNext, wpNext, notesNext, satHoursNext, sunHoursNext, monHoursNext, tueHoursNext, wedHoursNext, thuHoursNext, friHoursNext);
                       rNext.setWeekNumber(weekNumberNext);
                       tSheet.getDetails().add(rNext);
-                      System.out.println("week number hi 1:" + rNext.getNotes());
+                      
                   }
                   result.previous();
                   t.add(tSheet);
@@ -168,7 +168,6 @@ public class TimesheetBean implements Serializable {
            Connection conn = ds.getConnection();
            
            try {
-                System.out.println("EMPLOYEE NUMBER: " + empNumber);
                 String sql = "DELETE FROM Timesheet WHERE empNo = " + empNumber + " AND weekNumber = " + t.getWeekNumber();
                 
                 Statement stmt = conn.createStatement();

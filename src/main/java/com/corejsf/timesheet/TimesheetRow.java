@@ -1,13 +1,8 @@
 package com.corejsf.timesheet;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 
 import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.jsp.jstl.sql.Result;
-
 import com.corejsf.databaseAccess.TimesheetBean;
 import com.corejsf.employee.Employee;
 
@@ -431,10 +426,16 @@ public class TimesheetRow implements java.io.Serializable {
         this.totalWeekHours = totalWeekHours;
     }
 
+    /** gets the week number of the current timesheet row.
+     * @return weeknumber
+     */
     public int getWeekNumber() {
         return weekNumber;
     }
 
+    /** sets the timesheet row's week number
+     * @param weekNumber
+     */
     public void setWeekNumber(int weekNumber) {
         this.weekNumber = weekNumber;
     }

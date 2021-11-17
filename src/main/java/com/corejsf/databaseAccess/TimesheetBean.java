@@ -15,10 +15,6 @@ import javax.sql.DataSource;
 import com.corejsf.employee.Employee;
 import com.corejsf.timesheet.Timesheet;
 import com.corejsf.timesheet.TimesheetRow;
-import com.mysql.cj.jdbc.result.ResultSetMetaData;
-
-import javax.servlet.jsp.jstl.sql.Result;
-import javax.servlet.jsp.jstl.sql.ResultSupport;
 import java.io.Serializable;
 
 @Named
@@ -35,6 +31,11 @@ public class TimesheetBean implements Serializable {
        @Resource(mappedName="java:jboss/datasources/workplace")
        private DataSource ds;
        
+       /** gets all the timesheet rows for the current employee from the database.
+        * @param e current employee
+        * @return list of timesheets.
+        * @throws SQLException
+        */
        public ArrayList<Timesheet> getAll(Employee e) throws SQLException {
           
           Connection conn = ds.getConnection();
@@ -42,15 +43,15 @@ public class TimesheetBean implements Serializable {
           try {
               Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
               ResultSet result = stmt.executeQuery("SELECT * FROM Timesheet WHERE empNo = " + e.getEmpNumber());
-              java.sql.ResultSetMetaData rsmd = result.getMetaData();
-              int columnsNumber = rsmd.getColumnCount();
+              
+              
               ArrayList<Timesheet> t = new ArrayList<>();
               while (result.next()) {
                   Timesheet tSheet = new Timesheet();
-                  int currentWeek = result.getInt(13);
+                  
                   int projectNum = result.getInt(2);
                   String wp = result.getString(3);
-                  int totalWeekHours = result.getInt(4);
+                  
                   float satHours = result.getFloat(5);
                   float sunHours = result.getFloat(6);
                   int monHours = result.getInt(7);
@@ -68,7 +69,7 @@ public class TimesheetBean implements Serializable {
                   while (result.next() && (result.getInt(13) == tSheet.getWeekNumber())){
                       int projectNumNext = result.getInt(2);
                       String wpNext = result.getString(3);
-                      int totalWeekHoursNext = result.getInt(4);
+                      
                       float satHoursNext = result.getFloat(5);
                       float sunHoursNext = result.getFloat(6);
                       int monHoursNext = result.getInt(7);
@@ -96,6 +97,12 @@ public class TimesheetBean implements Serializable {
           
        }
        
+       /** gets current timesheet for the current employee.
+        * @param e current employee
+        * @param t current timesheet
+        * @return list of timesheet rows
+        * @throws SQLException
+        */
        public ArrayList<TimesheetRow> getCurrentTimesheet(Employee e, Timesheet t) throws SQLException {
            
            Connection conn = ds.getConnection();
@@ -103,14 +110,13 @@ public class TimesheetBean implements Serializable {
            try {
                Statement stmt = conn.createStatement();
                ResultSet result = stmt.executeQuery("SELECT * FROM Timesheet WHERE empNo = " + e.getEmpNumber() + " AND weekNumber = " + t.getWeekNumber());
-               java.sql.ResultSetMetaData rsmd = result.getMetaData();
-               int columnsNumber = rsmd.getColumnCount();
+               
                ArrayList<TimesheetRow> timesheet = new ArrayList<>();
                while (result.next()) {
                    
                    int projectNum = result.getInt(2);
                    String wp = result.getString(3);
-                   int totalWeekHours = result.getInt(4);
+                   
                    float satHours = result.getFloat(5);
                    float sunHours = result.getFloat(6);
                    int monHours = result.getInt(7);
@@ -131,7 +137,13 @@ public class TimesheetBean implements Serializable {
            
         }
        
-         
+       /** adds the timesheet row to the database.
+        * @param t timesheet row to add to database
+        * @param e employee who timesheet row it is.
+        * @param weekNumber weeknumber of the timesheet row.
+        * @return success if added successfully, else fail
+        * @throws SQLException
+        */
        public String addTimesheetRow(TimesheetRow t, Employee e, int weekNumber) throws SQLException {
            Connection conn = ds.getConnection();
            
@@ -164,6 +176,12 @@ public class TimesheetBean implements Serializable {
             }
        }
        
+       /** Deletes the timesheet from the database.
+        * @param t timesheet to delete
+        * @param empNumber employee who owns timesheet
+        * @return success if delete successful, else fail
+        * @throws SQLException
+        */
        public String removeTimesheet(Timesheet t, int empNumber) throws SQLException {
            Connection conn = ds.getConnection();
            
@@ -175,7 +193,7 @@ public class TimesheetBean implements Serializable {
                 return "deleteSuccess";
             }catch (Exception ex) {
                 ex.printStackTrace();
-                return "addFail";
+                return "deleteFail";
             } finally {
                 conn.close();
             }

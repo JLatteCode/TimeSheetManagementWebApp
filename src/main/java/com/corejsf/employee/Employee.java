@@ -1,17 +1,8 @@
 package com.corejsf.employee;
 
 import java.io.Serializable;
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Qualifier;
-import javax.persistence.Entity;
-import javax.ejb.Stateless;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped; 
+import javax.enterprise.context.RequestScoped; 
 
 @Named("emp")
 @RequestScoped

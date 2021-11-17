@@ -15,6 +15,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -40,10 +44,23 @@ public class EmployeeManager implements Serializable {
 	/**
 	 *  Four fields for to set value of Employee variable.
 	 */
-	@Size(min=1, message="{empNameRequired}")
+//	@Size(min=1, message="{NoBlank}")
+	@Pattern(regexp = "[a-zA-Z ]", message = "{empNameInvalid}")
+	@NotNull
 	private String name;
+	
+//	@Min( value = 1, message="{NoBlank}")
+	@NotNull
 	private int empNumber;
+	
+//	@Size(min=1, message="{NoBlank}")
+	@NotNull
+	@Pattern(regexp = "[0-9a-zA-Z]", message = "{userNameInvalid}")
 	private String userName;
+	
+//	@Size(min=1, message="{NoBlank}")
+	@NotNull
+	@Pattern(regexp = "[0-9a-zA-Z]", message = "{PWInvalid}")
 	private String password;
 
 
@@ -200,10 +217,9 @@ public class EmployeeManager implements Serializable {
 	@param empNo Receives empNo to delete that user */
 	public void deleteEmployee(int empNo) {
 		
-		if(isAdmin() == true) {
+		
 			
-		
-		
+
 		 Connection connection = null;
 	        PreparedStatement stmt = null;
 	        try {
@@ -240,7 +256,7 @@ public class EmployeeManager implements Serializable {
 			}
 		}
 	}
-	}
+	
 
 
    /** add employee into Employee type List. */

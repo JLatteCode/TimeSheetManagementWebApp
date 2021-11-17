@@ -13,9 +13,9 @@
           <div class="card">
               <h:form>
                   <p:megaMenu orientation="horizontal" autoDisplay="false">
-                      <p:submenu label="admin" icon="pi pi-fw pi-video" >
+                      <p:submenu label="admin" icon="pi pi-fw pi-video" rendered = "#{empManager.isAdmin()}" >
                           <p:column>
-                              <p:submenu label="Admin Console">
+                              <p:submenu label="Admin Console" >
                                   <p:menuitem value="Admin Console" url="admin.xhtml"/>
 
                               </p:submenu>

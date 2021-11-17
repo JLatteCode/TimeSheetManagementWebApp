@@ -3,6 +3,7 @@ package com.corejsf.timesheet;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
@@ -353,6 +354,13 @@ public class TimesheetManager implements TimesheetCollection {
     public float[] getTotalDailyHours(){
         float[] arr = displayedTimesheet.getDailyHours();
         return arr;
+    }
+    
+    public int endDateToWeekNumber() {
+        LocalDate endDate = displayedTimesheet.getEndDate();
+        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear(); 
+        int weekNumber = endDate.get(woy);
+        return weekNumber;
     }
     
     

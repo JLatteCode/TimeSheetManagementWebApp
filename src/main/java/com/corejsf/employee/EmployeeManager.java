@@ -1,9 +1,15 @@
 package com.corejsf.employee;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
@@ -11,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
 /**
  * EmployeeManager class contain some methods to handle
@@ -20,9 +27,17 @@ import javax.servlet.http.HttpSession;
  */
 @Named("empManager")
 @SessionScoped
+
+
 public class EmployeeManager implements Serializable {
 
 	private static final long serialVersionUID = 11L;
+	
+	/**
+	 * Database source.
+	 */
+	@Resource (mappedName = "java:/jboss/datasources/workplace")
+	private DataSource dataSource;
 
 	/**
 	 *  Four fields for to set value of Employee variable.
@@ -35,10 +50,11 @@ public class EmployeeManager implements Serializable {
 
 	/** Declare regular employee object.*/
 	Employee employee;
-	/** Declare employee object that is admin and put it into Array. */
-	Employee admin = new Employee("admin", 1, "admin", "admin");
-	private ArrayList<Employee> employees = new ArrayList<>(Arrays.asList(admin));
-
+	
+//	/** Declare employee object that is admin and put it into Array. */
+//	Employee admin = new Employee("admin", 1, "admin", "admin");
+//	private ArrayList<Employee> employees = new ArrayList<>(Arrays.asList(admin));
+	private ArrayList<Employee> employees = new ArrayList<>();
 
 
 	@Inject
@@ -46,12 +62,49 @@ public class EmployeeManager implements Serializable {
 	/** default constructor for EmployeeManager class */
 	public EmployeeManager(){ }
     /** returns List that contains Employee objects */
-	public List<Employee> getEmployees() {return employees;}
+	public List<Employee> getEmployees() {
+		return employees;
+		}
 
 	/** Create and Initialize employee object and add it into List. */
-	public void init() {
-employees.add(new Employee(getName(),getEmpNumber(),getUserName(),getPassword()));
-	}
+	@PostConstruct
+	public void onCreate() {
+
+		Connection connection = null;
+        PreparedStatement stmt = null;
+
+        try {
+        	
+            try {
+            	 connection = dataSource.getConnection();
+            	
+                try {
+                	stmt = connection.prepareStatement("SELECT * FROM Users ORDER BY empNo");
+                    ResultSet result = stmt.executeQuery( );
+                    while (result.next()) {
+                    	
+                    	employees.add(new Employee(
+                    			result.getString("empName"),
+                    			result.getInt("empNo"),
+                    			result.getString("empID"),
+                    			result.getString("empPW")			
+                    			));	                    
+                    }
+                } finally {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
+                }
+            } finally {
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error in finding User Database");
+            ex.printStackTrace();
+        }
+    }
 
 		/**  Return Employee List. */
 	public Employee getEmployee(int empNo) {
@@ -77,7 +130,7 @@ employees.add(new Employee(getName(),getEmpNumber(),getUserName(),getPassword())
     /** return admin */
 	public Employee getAdministrator() {
 
-		return admin;
+		return null;
 	}
 
  /**
@@ -132,7 +185,33 @@ employees.add(new Employee(getName(),getEmpNumber(),getUserName(),getPassword())
 	* deletes employee
 	@param empNo Receives empNo to delete that user */
 	public void deleteEmployee(int empNo) {
+		
+		 Connection connection = null;
+	        PreparedStatement stmt = null;
+	        try {
+	            try {
+	                connection = dataSource.getConnection();
+	                try {
+	                    stmt = connection.prepareStatement(
+	                            "DELETE FROM Users WHERE empNo =  ?");
+	                    stmt.setInt(1, empNo);
+	                    stmt.executeUpdate();
+	                } finally {
+	                    if (stmt != null) {
+	                        stmt.close();
+	                    }
+	                }
+	            } finally {
+	                if (connection != null) {
+	                    connection.close();
+	                }
+	            }
+	        } catch (SQLException ex) {
+	            System.out.println("Error in remove empNo: " + empNo);
+	            ex.printStackTrace();
+	        }
 
+ /** Delete locally .*/
 		Iterator<Employee> iter = employees.iterator();
 
 		while (iter.hasNext()) {
@@ -147,14 +226,44 @@ employees.add(new Employee(getName(),getEmpNumber(),getUserName(),getPassword())
 
    /** add employee into Employee type List. */
 	public void addEmployee() {
-
-		init();
+		employees.add(new Employee(getName(),getEmpNumber(),getUserName(),getPassword()));
+		
 		Iterator<Employee> iter = employees.iterator();
 		while (iter.hasNext()) {
 			Employee e = iter.next();
 
 			System.out.println(e);
-	}}
+	}
+		
+		 Connection connection = null;
+	        PreparedStatement stmt = null;
+	        try {
+	            try {
+	                connection = dataSource.getConnection();
+	                try {
+	                    stmt = connection.prepareStatement(
+	                            "INSERT INTO Users "
+	                         + "VALUES (?, ?, ?, ?)");	                  
+	                    stmt.setString(1, getName());
+	                    stmt.setInt(2, getEmpNumber());
+	                    stmt.setString(3, getUserName());
+	                    stmt.setString(4, getPassword());	                   
+	                    stmt.executeUpdate();
+	                } finally {
+	                    if (stmt != null) {
+	                        stmt.close();
+	                    }
+	                }
+	            } finally {
+	                if (connection != null) {
+	                    connection.close();
+	                }
+	            }
+	        } catch (SQLException ex) {
+	            System.out.println("Error in persist Employee, EmpNo: " + getEmpNumber());
+	            ex.printStackTrace();
+	        }
+	}
 
 	  /** getter and setter for credential injectin object .*/
 	public Credentials getCredential() {
@@ -174,7 +283,36 @@ employees.add(new Employee(getName(),getEmpNumber(),getUserName(),getPassword())
 	 *  to decide which user to edit.   */
 	public void editEmployee(int empNo) {
 
-		Iterator<Employee> iter = employees.iterator();
+		Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            try {
+                connection = dataSource.getConnection();
+                try {
+                    stmt = connection.prepareStatement(
+                            "UPDATE Users SET empName = ?, empID = ?, empPW = ? WHERE empNo =  ?");
+                    stmt.setString(1, getName());
+        			stmt.setString(2, getPassword());
+        			stmt.setString(3, getUserName());
+                    stmt.setInt(4, empNo);
+                    stmt.executeUpdate();
+                } finally {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
+                }
+            } finally {
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error in editing empNo: " + empNo);
+            ex.printStackTrace();
+        }
+		
+		
+        Iterator<Employee> iter = employees.iterator();
 
 		while (iter.hasNext()) {
 			Employee e = iter.next();
@@ -187,8 +325,11 @@ employees.add(new Employee(getName(),getEmpNumber(),getUserName(),getPassword())
 
 			}
 		}
-
+		
+		
+		
 	}
+
 
 	/**
 	 * getter and setters for Employee's name field

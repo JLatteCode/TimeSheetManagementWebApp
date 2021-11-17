@@ -34,9 +34,16 @@
            <h:outputStylesheet  library="css" name="styles.css"/>
            <h:form>
  <h:outputLabel>empName: </h:outputLabel>
-<h:inputText id="empName" value="#{empManager.name}"/>
-<h:outputLabel>empNumbedr: </h:outputLabel>
-<h:inputText id="empNumbedr" value="#{empManager.empNumber}"/>
+<h:inputText id="empName" value="#{empManager.name}" label="#{msgs.empName}" required= "true" requiredMessage="#{msgs.nameRequired}" validatorMessage="#{msgs.nameInvalid}">
+<f:validateRegex pattern="[a-zA-Z ]*"/>
+</h:inputText>
+<h:message for="empName" styleClass = "errorMessage"/>
+
+<h:outputLabel>empNumber: </h:outputLabel>
+<h:inputText id="empNumber" value="#{empManager.empNumber}" label="#{msgs.empNumber}" required= "true" requiredMessage="#{msgs.nameRequired}" validatorMessage="#{msgs.nameInvalid}">
+<f:validateRegex pattern="[0-9]*"/>
+</h:inputText>
+<h:message for="empNumber" styleClass = "errorMessage"/>
                <br></br>
 <h:outputLabel>username: </h:outputLabel>
 <h:inputText id="username" value="#{empManager.userName}"/>

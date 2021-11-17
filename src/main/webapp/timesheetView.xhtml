@@ -28,7 +28,7 @@
             		</div>
 	            	
             		<p:dataTable id="timesheetTable" 
-            			value="#{timesheetManager.timesheets}"
+            			value="#{timesheetManager.getAllTimesheetFromDB()}"
             			var="timesheet">
             			
             			<p:column headerText="#{msgs.weekNumber}">
@@ -47,14 +47,14 @@
             			</p:column>
             			
             			<p:column headerText="#{msgs.edit}">
-            			<p:commandButton 
+            			<h:commandButton 
             					value="#{msgs.edit}" 
             					action="#{timesheetManager.editTimesheet(timesheet)}" 
             					styleClass="ui-button-flat" />
             			</p:column>
             			
             			<p:column headerText="#{msgs.delete}">
-	            			<p:commandButton 
+	            			<h:commandButton 
 	            				action="#{timesheetManager.deleteTimesheet(timesheet)}"
 	            				value="#{msgs.delete}" 
 	            				styleClass="ui-button-danger ui-button-flat" />

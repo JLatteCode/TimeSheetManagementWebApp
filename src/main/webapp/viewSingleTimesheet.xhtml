@@ -36,79 +36,96 @@
 	            	</div>
             		<p:dataTable 
             			id="timesheetTable" 
-            			value="#{timesheetManager.displayedTimesheet.details}"
+            			value="#{timesheetManager.getCurrentTimesheetFromDB()}"
             			var="timesheetRow">
-            			
-            			<p:column headerText="#{msgs.project}">
-            				<h:outputText value="#{timesheetRow.projectId}"/>
+            			<p:column>
+            			<f:facet name="header">#{msgs.project}</f:facet>
+            				#{timesheetRow.projectId}
+            			</p:column>
+            			<p:column>
+            			<f:facet name="header">#{msgs.project}</f:facet>
+            				#{timesheetRow.projectId}
             			</p:column>
             			
-            			<p:column headerText="#{msgs.wp}">
-            				<h:outputText value="#{timesheetRow.workPackageId}" />
+            			<p:column>
+            				<f:facet name="header">#{msgs.wp}</f:facet>
+            				#{timesheetRow.workPackageId}
             			</p:column>
             			
-            			<p:column headerText="#{msgs.total}">
-            				<h:outputText value="#{timesheetRow.totalWeekHours}" />
+            			<p:column>
+            				<f:facet name="header">#{msgs.total}</f:facet>
+            				#{timesheetRow.getSum()}
             			</p:column>
             		
-            			<p:column headerText="#{msgs.sat}">
-            				<h:outputText value="#{timesheetRow.hoursPerDay[0]}"/>
+            			<p:column>
+            				<f:facet name="header">#{msgs.sat}</f:facet>
+            				#{timesheetRow.getHours()[0]}
             			</p:column>
             			
-            			<p:column headerText="#{msgs.sun}">
-            				<h:outputText value="#{timesheetRow.hoursPerDay[1]}"/>
+            			<p:column>
+            				<f:facet name="header">#{msgs.sun}</f:facet>
+            				#{timesheetRow.getHours()[1]}
             			</p:column>
             			
-            			<p:column headerText="#{msgs.mon}">
-            				<h:outputText value="#{timesheetRow.hoursPerDay[2]}"/>
+            			<p:column>
+            				<f:facet name="header">#{msgs.mon}</f:facet>
+            				#{timesheetRow.getHours()[2]}
             			</p:column>
             			
-            			<p:column headerText="#{msgs.tue}">
-            				<h:outputText value="#{timesheetRow.hoursPerDay[3]}" />
+            			<p:column>
+            				<f:facet name="header">#{msgs.tue}</f:facet>
+            				#{timesheetRow.getHours()[3]}
             			</p:column>
             			
-            			<p:column headerText="#{msgs.wed}">
-            				<h:outputText value="#{timesheetRow.hoursPerDay[4]}"/>
+            			<p:column>
+            				<f:facet name="header">#{msgs.wed}</f:facet>
+            				#{timesheetRow.getHours()[4]}
             			</p:column>
             			
-            			<p:column headerText="#{msgs.thu}">
-            				<h:outputText value="#{timesheetRow.hoursPerDay[5]}" />
+            			<p:column>
+            				<f:facet name="header">#{msgs.thu}</f:facet>
+            				#{timesheetRow.getHours()[5]}
             			</p:column>
             			
-            			<p:column headerText="#{msgs.fri}">
-            				<h:outputText value="#{timesheetRow.hoursPerDay[6]}" />
+            			<p:column>
+            				<f:facet name="header">#{msgs.fri}</f:facet>
+            				#{timesheetRow.getHours()[6]}
             			</p:column>
             			
             			<p:column headerText="#{msgs.notes}">
             				<f:facet name="header">#{msgs.notes}</f:facet>
-            				<h:outputText value="#{timesheetRow.notes}" />
+            				#{timesheetRow.notes}
+            			</p:column>
+            			<p:column headerText="Week Number">
+            				<f:facet name="header">Week</f:facet>
+            				#{timesheetRow.weekNumber}
             			</p:column>
             		</p:dataTable>
             		<h4>#{msgs.summaryHours}</h4>
             		<p:panelGrid columns="2">
 				        #{msgs.saturday}
-				        <h:outputText value="#{timesheetManager.hourSummary[0]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[0]}"/>
 				        
 				        #{msgs.sunday}
-				        <h:outputText value="#{timesheetManager.hourSummary[1]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[1]}"/>
 				        
 				        #{msgs.monday}
-				        <h:outputText value="#{timesheetManager.hourSummary[2]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[2]}"/>
 				        
 				        #{msgs.tuesday}
-				        <h:outputText value="#{timesheetManager.hourSummary[3]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[3]}"/>
 				        
 				        #{msgs.wednesday}
-				        <h:outputText value="#{timesheetManager.hourSummary[4]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[4]}"/>
 				        
 				        #{msgs.thursday}
-				        <h:outputText value="#{timesheetManager.hourSummary[5]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[5]}"/>
 				        
 				        #{msgs.friday}
-				        <h:outputText value="#{timesheetManager.hourSummary[6]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[6]}"/>
 				        
 				        #{msgs.total}
-				        <h:outputText value="#{timesheetManager.hourSummary[7]}"/>
+				        <h:outputText value="#{timesheetManager.getDisplayedTimesheet().getTotalHours()}"/>
 				    </p:panelGrid>
 				    
             		<h:commandButton 

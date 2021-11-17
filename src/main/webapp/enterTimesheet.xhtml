@@ -110,7 +110,6 @@
             			</p:column>
             			
             			<p:column headerText="#{msgs.fri}">
-            				<f:facet name="header">#{msgs.fri}</f:facet>
             				<p:inputNumber 
             					id="fri"
             					value="#{timesheetRow.hoursPerDay[6]}" 
@@ -127,13 +126,13 @@
             			</p:column>
             		</p:dataTable>
             		<div style="margin-top: 20px">
-	            		<p:commandButton 
+	            		<h:commandButton 
 	            			value="#{msgs.addRow}" 
 	            			action="#{timesheetManager.addRowToDisplayedTimesheet}"
 	            			style="color: white; background-color: #3CBC8D;"/>
-						<p:commandButton 
+						<h:commandButton 
 							value="#{msgs.save}" 
-							action="#{timesheetManager.saveTimesheet}" 
+							action="#{timesheetManager.addTimesheetRowToDB()}" 
 							style="margin-left: 10px; color: white; background-color: #3CBC8D;"/>
             		</div>
             	</h:form>

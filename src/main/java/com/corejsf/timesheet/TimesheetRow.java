@@ -104,6 +104,8 @@ public class TimesheetRow implements java.io.Serializable {
     private float[] hoursPerDay =  {0, 0, 0, 0, 0, 0, 0};
     
     private float totalWeekHours;
+    
+    private int weekNumber;
 
     /** create empty timesheetRow to be modified later.*/
     public TimesheetRow() {
@@ -428,15 +430,15 @@ public class TimesheetRow implements java.io.Serializable {
     public void setTotalWeekHours(float totalWeekHours) {
         this.totalWeekHours = totalWeekHours;
     }
-    
-    public String addTimesheetRowToDB() throws SQLException {
-        timesheetDB.addTimesheetRow(this, currentEmployee);
-        return "viewSingleTimesheet.xhtml";
+
+    public int getWeekNumber() {
+        return weekNumber;
     }
-//    public ResultSet getTimesheetRowFromDB() throws SQLException {
-//        ResultSet r = timesheetDB.getAll();
-//        return r;
-//    }
+
+    public void setWeekNumber(int weekNumber) {
+        this.weekNumber = weekNumber;
+    }
+    
     
 
 }

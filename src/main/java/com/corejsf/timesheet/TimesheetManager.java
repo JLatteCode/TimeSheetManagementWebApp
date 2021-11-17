@@ -206,8 +206,11 @@ public class TimesheetManager implements TimesheetCollection {
      * Handle delete time sheet event and return a outcome to navigate.
      * @param timesheet a Timesheet
      * @return a string
+     * @throws SQLException 
      */
-    public String deleteTimesheet(Timesheet timesheet) {
+    public String deleteTimesheet(Timesheet timesheet) throws SQLException {
+        
+        removeTimesheetFromDB(timesheet);
         timesheets.remove(timesheet);
         return "timesheetList";
     }
@@ -247,9 +250,15 @@ public class TimesheetManager implements TimesheetCollection {
      * Handle edit time sheet event and return a outcome to navigate.
      * @param timesheet a Timesheet
      * @return a string
+     * @throws SQLException 
      */
-    public String viewTimesheet(Timesheet timesheet) {
+    public String viewTimesheet(Timesheet timesheet) throws SQLException {
+        for (int i = 0; i < timesheet.getDetails().size();i++) {
+            System.out.println("TIMESHEET DETAILS:\n" + timesheet.getDetails().get(i).getNotes());
+        }
         setDisplayedTimesheet(timesheet);
+        
+        getCurrentTimesheetFromDBForMainViewPage(timesheet);
         return "viewTimesheet";
     }
     
@@ -290,20 +299,59 @@ public class TimesheetManager implements TimesheetCollection {
     
     public String addTimesheetRowToDB() throws SQLException {
         saveTimesheet();
+        
         for (int i = 0; i < this.displayedTimesheet.getDetails().size(); i++) {
-            timesheetDB.addTimesheetRow(this.displayedTimesheet.getDetails().get(i), currentEmployee.getCurrentEmployee());
+            this.displayedTimesheet.getDetails().get(i).setWeekNumber(displayedTimesheet.getWeekNumber());
+            timesheetDB.addTimesheetRow(this.displayedTimesheet.getDetails().get(i), currentEmployee.getCurrentEmployee(), displayedTimesheet.getWeekNumber());
         }
         
         return "viewSingleTimesheet.xhtml";
     }
     
-    public List<TimesheetRow> getTimesheetRowFromDB() throws SQLException {
-        List<TimesheetRow> r = timesheetDB.getAll(currentEmployee.getCurrentEmployee());
+    public List<TimesheetRow> getCurrentTimesheetFromDB() throws SQLException {
+        if (displayedTimesheet == null) {
+            List<TimesheetRow> t1 = getCurrentTimesheetFromDBForMainViewPage(getDisplayedTimesheet());
+            Timesheet t = new Timesheet();
+            t.setEmployee(currentEmployee.getCurrentEmployee());
+            t.setDetails(t1);
+            return t.getDetails();
+        } else {
+             List<TimesheetRow> r = timesheetDB.getCurrentTimesheet(currentEmployee.getCurrentEmployee(), displayedTimesheet);
         Timesheet t = new Timesheet();
+        
         t.setEmployee(currentEmployee.getCurrentEmployee());
         t.setDetails(r);
         
         //System.out.println(r.getColumnNames().toString());
         return t.getDetails();
+        }
+       
     }
+    public List<Timesheet> getAllTimesheetFromDB() throws SQLException {
+        List<Timesheet> r = timesheetDB.getAll(currentEmployee.getCurrentEmployee());
+        
+        return r;
+    }
+    
+    public List<TimesheetRow> getCurrentTimesheetFromDBForMainViewPage(Timesheet t) throws SQLException {
+        List<TimesheetRow> r = timesheetDB.getCurrentTimesheet(currentEmployee.getCurrentEmployee(), t);
+        Timesheet t1 = new Timesheet();
+        
+        t1.setEmployee(currentEmployee.getCurrentEmployee());
+        t1.setDetails(r);
+        
+        //System.out.println(r.getColumnNames().toString());
+        return t1.getDetails();
+    }
+    
+    public void removeTimesheetFromDB(Timesheet t) throws SQLException {
+        timesheetDB.removeTimesheet(t);
+    }
+    
+    public float[] getTotalDailyHours(){
+        float[] arr = displayedTimesheet.getDailyHours();
+        return arr;
+    }
+    
+    
 }

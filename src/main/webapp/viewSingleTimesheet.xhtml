@@ -36,9 +36,12 @@
 	            	</div>
             		<p:dataTable 
             			id="timesheetTable" 
-            			value="#{timesheetManager.getTimesheetRowFromDB()}"
+            			value="#{timesheetManager.getCurrentTimesheetFromDB()}"
             			var="timesheetRow">
-            			
+            			<p:column>
+            			<f:facet name="header">#{msgs.project}</f:facet>
+            				#{timesheetRow.projectId}
+            			</p:column>
             			<p:column>
             			<f:facet name="header">#{msgs.project}</f:facet>
             				#{timesheetRow.projectId}
@@ -93,32 +96,36 @@
             				<f:facet name="header">#{msgs.notes}</f:facet>
             				#{timesheetRow.notes}
             			</p:column>
+            			<p:column headerText="Week Number">
+            				<f:facet name="header">Week</f:facet>
+            				#{timesheetRow.weekNumber}
+            			</p:column>
             		</p:dataTable>
             		<h4>#{msgs.summaryHours}</h4>
             		<p:panelGrid columns="2">
 				        #{msgs.saturday}
-				        <h:outputText value="#{timesheetManager.hourSummary[0]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[0]}"/>
 				        
 				        #{msgs.sunday}
-				        <h:outputText value="#{timesheetManager.hourSummary[1]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[1]}"/>
 				        
 				        #{msgs.monday}
-				        <h:outputText value="#{timesheetManager.hourSummary[2]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[2]}"/>
 				        
 				        #{msgs.tuesday}
-				        <h:outputText value="#{timesheetManager.hourSummary[3]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[3]}"/>
 				        
 				        #{msgs.wednesday}
-				        <h:outputText value="#{timesheetManager.hourSummary[4]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[4]}"/>
 				        
 				        #{msgs.thursday}
-				        <h:outputText value="#{timesheetManager.hourSummary[5]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[5]}"/>
 				        
 				        #{msgs.friday}
-				        <h:outputText value="#{timesheetManager.hourSummary[6]}"/>
+				        <h:outputText value="#{timesheetManager.getTotalDailyHours()[6]}"/>
 				        
 				        #{msgs.total}
-				        <h:outputText value="#{timesheetRow.getDeciSum()}"/>
+				        <h:outputText value="#{timesheetManager.getDisplayedTimesheet().getTotalHours()}"/>
 				    </p:panelGrid>
 				    
             		<h:commandButton 

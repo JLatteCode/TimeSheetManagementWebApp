@@ -28,7 +28,7 @@
             		</div>
 	            	
             		<p:dataTable id="timesheetTable" 
-            			value="#{timesheetManager.timesheets}"
+            			value="#{timesheetManager.getAllTimesheetFromDB()}"
             			var="timesheet">
             			
             			<p:column headerText="#{msgs.weekNumber}">

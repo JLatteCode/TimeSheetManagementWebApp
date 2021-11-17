@@ -375,6 +375,9 @@ public class Timesheet implements java.io.Serializable {
         return result;
     }
     
+    /** Function to turn the end date of the timesheet to a week number for the timesheet.
+     * @return weeknumber of timesheet.
+     */
     public int endDateToWeekNumber() {
         LocalDate endDate = getEndDate();
         TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear(); 

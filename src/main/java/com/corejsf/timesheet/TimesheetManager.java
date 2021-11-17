@@ -1,9 +1,7 @@
 package com.corejsf.timesheet;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +10,6 @@ import java.util.Locale;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.jsp.jstl.sql.Result;
-
 import com.corejsf.databaseAccess.TimesheetBean;
 import com.corejsf.employee.Employee;
 import com.corejsf.employee.EmployeeManager;
@@ -298,6 +294,11 @@ public class TimesheetManager implements TimesheetCollection {
         return hourSummary;
     }
     
+    
+    /** Adds the current timesheet to the database if projectID and WP are not empty
+     * @return timesheet view page.
+     * @throws SQLException if query cannot be performed.
+     */
     public String addTimesheetRowToDB() throws SQLException {
         saveTimesheet();
         
@@ -311,6 +312,10 @@ public class TimesheetManager implements TimesheetCollection {
         return "viewSingleTimesheet.xhtml";
     }
     
+    /** Gets the current timesheet from the database to display on the view single timesheet page.
+     * @return timesheet rows of current timesheet.
+     * @throws SQLException
+     */
     public List<TimesheetRow> getCurrentTimesheetFromDB() throws SQLException {
         if (displayedTimesheet == null) {
             List<TimesheetRow> t1 = getCurrentTimesheetFromDBForMainViewPage(getDisplayedTimesheet());
@@ -325,17 +330,27 @@ public class TimesheetManager implements TimesheetCollection {
         t.setEmployee(currentEmployee.getCurrentEmployee());
         t.setDetails(r);
         
-        //System.out.println(r.getColumnNames().toString());
+        
         return t.getDetails();
         }
        
     }
+    
+    /** Gets all of the timesheets from the database for the current employee.
+     * @return list of timesheets.
+     * @throws SQLException
+     */
     public List<Timesheet> getAllTimesheetFromDB() throws SQLException {
         List<Timesheet> r = timesheetDB.getAll(currentEmployee.getCurrentEmployee());
         
         return r;
     }
     
+    /** Gets the current timesheet from database for the main view page. Helper function called when save button is pressed.
+     * @param t is current timesheet that was just added to the database.
+     * @return list of timesheet rows.
+     * @throws SQLException
+     */
     public List<TimesheetRow> getCurrentTimesheetFromDBForMainViewPage(Timesheet t) throws SQLException {
         List<TimesheetRow> r = timesheetDB.getCurrentTimesheet(currentEmployee.getCurrentEmployee(), t);
         Timesheet t1 = new Timesheet();
@@ -343,25 +358,24 @@ public class TimesheetManager implements TimesheetCollection {
         t1.setEmployee(currentEmployee.getCurrentEmployee());
         t1.setDetails(r);
         
-        //System.out.println(r.getColumnNames().toString());
+        
         return t1.getDetails();
     }
     
+    /** removes the timesheet from database when delete is pressed.
+     * @param t timesheet to delete.
+     * @throws SQLException
+     */
     public void removeTimesheetFromDB(Timesheet t) throws SQLException {
         timesheetDB.removeTimesheet(t, employeeManager.getCurrentEmployee().getEmpNumber());
     }
     
+    /** gets the total daily hours for the timesheet as an array
+     * @return array of daily hours, indexed by the day number.
+     */
     public float[] getTotalDailyHours(){
         float[] arr = displayedTimesheet.getDailyHours();
         return arr;
     }
-    
-    public int endDateToWeekNumber() {
-        LocalDate endDate = displayedTimesheet.getEndDate();
-        TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear(); 
-        int weekNumber = endDate.get(woy);
-        return weekNumber;
-    }
-    
     
 }

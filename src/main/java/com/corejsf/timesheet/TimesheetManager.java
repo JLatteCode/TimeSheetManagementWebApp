@@ -301,8 +301,10 @@ public class TimesheetManager implements TimesheetCollection {
         saveTimesheet();
         
         for (int i = 0; i < this.displayedTimesheet.getDetails().size(); i++) {
-            this.displayedTimesheet.getDetails().get(i).setWeekNumber(displayedTimesheet.getWeekNumber());
-            timesheetDB.addTimesheetRow(this.displayedTimesheet.getDetails().get(i), currentEmployee.getCurrentEmployee(), displayedTimesheet.getWeekNumber());
+            if (this.displayedTimesheet.getDetails().get(i).getProjectId() != 0 && this.displayedTimesheet.getDetails().get(i).getWorkPackageId() != null) {
+                this.displayedTimesheet.getDetails().get(i).setWeekNumber(displayedTimesheet.getWeekNumber());
+                timesheetDB.addTimesheetRow(this.displayedTimesheet.getDetails().get(i), currentEmployee.getCurrentEmployee(), displayedTimesheet.getWeekNumber());
+            }
         }
         
         return "viewSingleTimesheet.xhtml";

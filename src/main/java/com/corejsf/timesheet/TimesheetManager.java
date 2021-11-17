@@ -1,5 +1,7 @@
 package com.corejsf.timesheet;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
@@ -9,7 +11,9 @@ import java.util.Locale;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.jsp.jstl.sql.Result;
 
+import com.corejsf.databaseAccess.TimesheetBean;
 import com.corejsf.employee.Employee;
 import com.corejsf.employee.EmployeeManager;
 
@@ -22,6 +26,10 @@ import com.corejsf.employee.EmployeeManager;
 @Named("timesheetManager")
 @SessionScoped
 public class TimesheetManager implements TimesheetCollection {
+    
+    @Inject TimesheetBean timesheetDB;
+    
+    @Inject EmployeeManager currentEmployee;
 
     /**
      * A serialVersionUID
@@ -278,5 +286,24 @@ public class TimesheetManager implements TimesheetCollection {
      */
     public float[] getHourSummary() {
         return hourSummary;
+    }
+    
+    public String addTimesheetRowToDB() throws SQLException {
+        saveTimesheet();
+        for (int i = 0; i < this.displayedTimesheet.getDetails().size(); i++) {
+            timesheetDB.addTimesheetRow(this.displayedTimesheet.getDetails().get(i), currentEmployee.getCurrentEmployee());
+        }
+        
+        return "viewSingleTimesheet.xhtml";
+    }
+    
+    public List<TimesheetRow> getTimesheetRowFromDB() throws SQLException {
+        List<TimesheetRow> r = timesheetDB.getAll(currentEmployee.getCurrentEmployee());
+        Timesheet t = new Timesheet();
+        t.setEmployee(currentEmployee.getCurrentEmployee());
+        t.setDetails(r);
+        
+        //System.out.println(r.getColumnNames().toString());
+        return t.getDetails();
     }
 }

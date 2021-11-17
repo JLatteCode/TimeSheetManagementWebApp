@@ -1,6 +1,15 @@
 package com.corejsf.timesheet;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.jsp.jstl.sql.Result;
+
+import com.corejsf.databaseAccess.TimesheetBean;
+import com.corejsf.employee.Employee;
 
 /**
  * A class representing a single row of a Timesheet.
@@ -9,6 +18,10 @@ import java.util.Arrays;
  * @version 3.0
  */
 public class TimesheetRow implements java.io.Serializable {
+    
+    @Inject TimesheetBean timesheetDB;
+    
+    @Inject Employee currentEmployee;
 
     /** Timesheet row index for Saturday. */
     public static final int SAT = 0;
@@ -415,6 +428,15 @@ public class TimesheetRow implements java.io.Serializable {
     public void setTotalWeekHours(float totalWeekHours) {
         this.totalWeekHours = totalWeekHours;
     }
+    
+    public String addTimesheetRowToDB() throws SQLException {
+        timesheetDB.addTimesheetRow(this, currentEmployee);
+        return "viewSingleTimesheet.xhtml";
+    }
+//    public ResultSet getTimesheetRowFromDB() throws SQLException {
+//        ResultSet r = timesheetDB.getAll();
+//        return r;
+//    }
     
 
 }

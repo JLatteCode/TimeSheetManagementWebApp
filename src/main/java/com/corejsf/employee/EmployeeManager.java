@@ -43,7 +43,7 @@ public class EmployeeManager implements Serializable {
 	/**
 	 *  Four fields for to set value of Employee variable.
 	 */
-	@Size(min=1, message="{com.corejsf.Length}")
+	@Size(min=1, message="{empNameRequired}")
 	private String name;
 	private int empNumber;
 	private String userName;

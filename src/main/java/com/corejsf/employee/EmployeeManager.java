@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import javax.validation.constraints.Size;
 
 /**
  * EmployeeManager class contain some methods to handle
@@ -42,6 +43,7 @@ public class EmployeeManager implements Serializable {
 	/**
 	 *  Four fields for to set value of Employee variable.
 	 */
+	@Size(min=1, message="{com.corejsf.Length}")
 	private String name;
 	private int empNumber;
 	private String userName;
@@ -130,8 +132,23 @@ public class EmployeeManager implements Serializable {
     /** return admin */
 	public Employee getAdministrator() {
 
+		
+		
 		return null;
 	}
+	
+	 /** return the current user is admin */
+		public boolean isAdmin() {
+
+			if(getEmployee().getUserName().equals("admin")) {
+				System.out.println("name from isadmin: " + getEmployee().getUserName());
+				System.out.println("is admin");
+				return true;
+			}
+			System.out.println("name from isadmin: " + getEmployee().getUserName());
+			System.out.println("not admin");
+			return false;
+		}
 
  /**
   * @param credential receives credential object by injection
@@ -186,6 +203,10 @@ public class EmployeeManager implements Serializable {
 	@param empNo Receives empNo to delete that user */
 	public void deleteEmployee(int empNo) {
 		
+		if(isAdmin() == true) {
+			
+		
+		
 		 Connection connection = null;
 	        PreparedStatement stmt = null;
 	        try {
@@ -222,19 +243,32 @@ public class EmployeeManager implements Serializable {
 			}
 		}
 	}
+	}
 
 
    /** add employee into Employee type List. */
 	public void addEmployee() {
-		employees.add(new Employee(getName(),getEmpNumber(),getUserName(),getPassword()));
+		
+		boolean userExist = false;
 		
 		Iterator<Employee> iter = employees.iterator();
+		
 		while (iter.hasNext()) {
 			Employee e = iter.next();
 
-			System.out.println(e);
-	}
+			if (e.getEmpNumber() == getEmpNumber()) {
+				
+				userExist = true;
+			} 
+			
+			
+		}
 		
+		if(isAdmin() == true && userExist == false) {
+		
+		
+		employees.add(new Employee(getName(),getEmpNumber(),getUserName(),getPassword()));
+				
 		 Connection connection = null;
 	        PreparedStatement stmt = null;
 	        try {
@@ -264,7 +298,8 @@ public class EmployeeManager implements Serializable {
 	            ex.printStackTrace();
 	        }
 	}
-
+	}
+	
 	  /** getter and setter for credential injectin object .*/
 	public Credentials getCredential() {
 		return credential;
@@ -283,6 +318,8 @@ public class EmployeeManager implements Serializable {
 	 *  to decide which user to edit.   */
 	public void editEmployee(int empNo) {
 
+		if(isAdmin() == true) {
+		
 		Connection connection = null;
         PreparedStatement stmt = null;
         try {
@@ -327,7 +364,7 @@ public class EmployeeManager implements Serializable {
 		}
 		
 		
-		
+		}
 	}
 
 

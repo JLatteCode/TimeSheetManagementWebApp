@@ -37,9 +37,9 @@
            
  <h:outputLabel>empName: </h:outputLabel>
 <h:inputText id="empName"  label="#{msgs.empName}" required= "true" value="#{empManager.name}" requiredMessage="#{msgs.empNameRequired}" validatorMessage="#{msgs.empNameInvalid}">
-<f:validateRegex pattern="[a-zA-Z ]*"/>
+<f:validateRegex pattern="[a-zA-Z]*"/>
 </h:inputText>
-<h:message for="empName" styleClass = "errorMessage"/>
+<h:message for="empName" showSummary ="true" showDetail ="false" styleClass = "errorMessage"/>
 
 <h:outputLabel>empNumber: </h:outputLabel>
 <h:inputText id="empNumber" value="#{empManager.empNumber}" label="#{msgs.empNumber}" required= "true" requiredMessage="#{msgs.empNumberRequired}" validatorMessage="#{msgs.empNumberInvalid}">

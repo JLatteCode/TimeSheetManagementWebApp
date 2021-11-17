@@ -345,7 +345,7 @@ public class TimesheetManager implements TimesheetCollection {
     }
     
     public void removeTimesheetFromDB(Timesheet t) throws SQLException {
-        timesheetDB.removeTimesheet(t);
+        timesheetDB.removeTimesheet(t, currentEmployee.getEmpNumber());
     }
     
     public float[] getTotalDailyHours(){

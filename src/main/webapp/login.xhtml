@@ -27,7 +27,7 @@
          <h:inputText value="#{empManager.credential.userName}"/>
          <br></br>
          #{msgs.typePW}
-         <h:inputText value="#{empManager.credential.password}"/>
+         <h:inputSecret value="#{empManager.credential.password}"/>
         
         <br></br>
          <h:commandButton value="Login" action="#{empManager.login}"/>

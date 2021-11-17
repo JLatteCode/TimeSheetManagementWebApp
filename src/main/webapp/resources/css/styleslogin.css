@@ -1,4 +1,11 @@
-input[type=text] {
+input[type=text]{
+   padding:10px;
+   border-radius:10px;
+
+}
+
+input[type=password]{
+   margin-top:20px;
    padding:10px;
    border-radius:10px;
 

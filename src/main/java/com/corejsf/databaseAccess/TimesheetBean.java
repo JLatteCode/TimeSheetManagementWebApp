@@ -164,12 +164,12 @@ public class TimesheetBean implements Serializable {
             }
        }
        
-       public String removeTimesheet(Timesheet t) throws SQLException {
+       public String removeTimesheet(Timesheet t, int empNumber) throws SQLException {
            Connection conn = ds.getConnection();
            
            try {
-             
-                String sql = "DELETE FROM Timesheet WHERE empNo = '1' AND weekNumber = " + t.getWeekNumber();
+                System.out.println("EMPLOYEE NUMBER: " + empNumber);
+                String sql = "DELETE FROM Timesheet WHERE empNo = " + empNumber + " AND weekNumber = " + t.getWeekNumber();
                 
                 Statement stmt = conn.createStatement();
                 stmt.execute(sql);

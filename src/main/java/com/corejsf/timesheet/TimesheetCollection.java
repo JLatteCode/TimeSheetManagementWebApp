@@ -8,7 +8,7 @@ import com.corejsf.employee.*;
 /**
  * A interface for accessing all existing Timesheets.
  *
- * @author Bruce Link
+ * @author Jung Jae Lee & Jashan Rai
  * @version 1.1
  *
  */

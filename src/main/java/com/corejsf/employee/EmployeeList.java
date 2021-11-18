@@ -11,7 +11,7 @@ import javax.enterprise.context.SessionScoped;
 /**
  * interface to back end to access Employees and verify login credentials.
  *
- * @author blink
+ * @author Jung Jae Lee & Jashan Rai
  * @version 1.1
  *
  */

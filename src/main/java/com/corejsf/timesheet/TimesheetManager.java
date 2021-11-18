@@ -17,7 +17,7 @@ import com.corejsf.employee.EmployeeManager;
 /**
  * TimsheetManager class implement TimesheetCollection interface,
  * and contain some method to handle timesheet form.
- * @author Thi Hong Phuc Le (Katherine) & Jung Jae Lee
+ * @author Jung Jae Lee & Jashan Rai
  * @version 1.0
  */
 @Named("timesheetManager")

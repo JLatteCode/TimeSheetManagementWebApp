@@ -10,7 +10,7 @@ import javax.enterprise.context.RequestScoped;
 /**
  * A class representing a single Employee.
  *
- * @author Bruce Link
+ * @author Jung Jae Lee & Jashan Rai
  * @version 1.1
  */
 public class Employee implements Serializable {

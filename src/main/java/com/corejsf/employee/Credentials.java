@@ -10,7 +10,7 @@ import javax.enterprise.context.SessionScoped;
 
 /**
  * Login Credentials.
- * @author blink
+ * @author Jung Jae Lee & Jashan Rai
  * @version 1.1
  */
 public class Credentials implements Serializable {

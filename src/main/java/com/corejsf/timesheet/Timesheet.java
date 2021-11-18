@@ -15,7 +15,7 @@ import com.corejsf.employee.*;
 /**
  * A class representing a single Timesheet.
  *
- * @author Bruce Link
+ * @author Jung Jae Lee & Jashan Rai
  * @version 2.0
  */
 public class Timesheet implements java.io.Serializable {

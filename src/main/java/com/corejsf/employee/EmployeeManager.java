@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 /**
  * EmployeeManager class contain some methods to handle
  * user login and edit users.
- * @author  Jung Jae Lee
+ * @author  Jung Jae Lee & Jashan Rai
  * @version 1.0
  */
 @Named("empManager")

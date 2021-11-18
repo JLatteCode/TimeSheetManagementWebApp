@@ -9,7 +9,7 @@ import com.corejsf.employee.Employee;
 /**
  * A class representing a single row of a Timesheet.
  *
- * @author Bruce Link
+ * @author Jung Jae Lee & Jashan Rai
  * @version 3.0
  */
 public class TimesheetRow implements java.io.Serializable {

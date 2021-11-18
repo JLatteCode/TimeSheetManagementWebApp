@@ -218,9 +218,7 @@ public class TimesheetManager implements TimesheetCollection {
      * @return a string
      */
     public String saveTimesheet() {
-        System.out.println("Save is clicked");
-        System.out.println(displayedTimesheet);
-
+        
         for (Timesheet timesheet : timesheets) {
             if(timesheet.getEndDate() == displayedTimesheet.getEndDate() 
               && timesheet.getEmployee().getEmpNumber()
@@ -250,9 +248,7 @@ public class TimesheetManager implements TimesheetCollection {
      * @throws SQLException 
      */
     public String viewTimesheet(Timesheet timesheet) throws SQLException {
-        for (int i = 0; i < timesheet.getDetails().size();i++) {
-            System.out.println("TIMESHEET DETAILS:\n" + timesheet.getDetails().get(i).getNotes());
-        }
+        
         setDisplayedTimesheet(timesheet);
         
         getCurrentTimesheetFromDBForMainViewPage(timesheet);
@@ -374,8 +370,15 @@ public class TimesheetManager implements TimesheetCollection {
      * @return array of daily hours, indexed by the day number.
      */
     public float[] getTotalDailyHours(){
+        if(displayedTimesheet.getDailyHours()[0] == 0 && displayedTimesheet.getDailyHours()[1] == 0 &&
+                displayedTimesheet.getDailyHours()[2] == 0 && displayedTimesheet.getDailyHours()[3] == 0 &&
+                displayedTimesheet.getDailyHours()[4] == 0 && displayedTimesheet.getDailyHours()[5] == 0 &&
+                displayedTimesheet.getDailyHours()[6] == 0) {
+            return getHourSummary();
+        } else {
         float[] arr = displayedTimesheet.getDailyHours();
         return arr;
-    }
+        }
+     }
     
 }

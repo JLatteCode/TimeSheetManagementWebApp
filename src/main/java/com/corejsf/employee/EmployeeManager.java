@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 /**
  * EmployeeManager class contain some methods to handle
  * user login and edit users.
- * @author Thi Hong Phuc Le (Katherine) & Jung Jae Lee
+ * @author  Jung Jae Lee
  * @version 1.0
  */
 @Named("empManager")
@@ -42,30 +42,27 @@ public class EmployeeManager implements Serializable {
 	private DataSource dataSource;
 
 	/**
-	 *  Four fields for to set value of Employee variable.
+	 *  Four convenience fields for to set value of Employee variable.
+	 *  with constraints such as Regex and Required.
 	 */
-//	@Size(min=1, message="{empNameRequired}")
-	@Pattern(regexp = "[a-zA-Z ]", message = "{empNameInvalid}")
+	@Pattern(regexp = "^[a-zA-Z ]+$", message = "{empNameInvalid}")
 	private String name;
 	
-//	@Min( value = 1, message="{NoBlank}")
 	private int empNumber;
 	
-//	@Size(min=1, message="{userNameRequired}")
-	@Pattern(regexp = "[0-9a-zA-Z]", message = "{userNameInvalid}")
+
+	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "{userNameInvalid}")
 	private String userName;
 	
-//	@Size(min=1, message="{PWRequired}")
-	@Pattern(regexp = "[0-9a-zA-Z]", message = "{PWInvalid}")
+
+	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "{PWInvalid}")
 	private String password;
 
 
 	/** Declare regular employee object.*/
 	Employee employee;
 	
-//	/** Declare employee object that is admin and put it into Array. */
-//	Employee admin = new Employee("admin", 1, "admin", "admin");
-//	private ArrayList<Employee> employees = new ArrayList<>(Arrays.asList(admin));
+
 	private ArrayList<Employee> employees = new ArrayList<>();
 
 
@@ -139,15 +136,9 @@ public class EmployeeManager implements Serializable {
 		return employee;
 	}
 
-    /** return admin */
-	public Employee getAdministrator() {
-
-		
-		
-		return null;
-	}
+   
 	
-	 /** return the current user is admin */
+	 /** return the true if the current user is Admin. */
 		public boolean isAdmin() {
 
 			if(getEmployee().getUserName().equals("admin")) {
@@ -213,7 +204,7 @@ public class EmployeeManager implements Serializable {
 	@param empNo Receives empNo to delete that user */
 	public void deleteEmployee(int empNo) {
 		
-		
+		if(isAdmin() == true) {
 			
 
 		 Connection connection = null;
@@ -240,8 +231,7 @@ public class EmployeeManager implements Serializable {
 	            System.out.println("Error in remove empNo: " + empNo);
 	            ex.printStackTrace();
 	        }
-
- /** Delete locally .*/
+		
 		Iterator<Employee> iter = employees.iterator();
 
 		while (iter.hasNext()) {
@@ -252,7 +242,7 @@ public class EmployeeManager implements Serializable {
 			}
 		}
 	}
-	
+	}
 
 
    /** add employee into Employee type List. */
@@ -275,9 +265,7 @@ public class EmployeeManager implements Serializable {
 		
 		if(isAdmin() == true && userExist == false) {
 		
-		
-		employees.add(new Employee(getName(),getEmpNumber(),getUserName(),getPassword()));
-				
+
 		 Connection connection = null;
 	        PreparedStatement stmt = null;
 	        try {
@@ -306,10 +294,12 @@ public class EmployeeManager implements Serializable {
 	            System.out.println("Error in persist Employee, EmpNo: " + getEmpNumber());
 	            ex.printStackTrace();
 	        }
+	        
+	    	employees.add(new Employee(getName(),getEmpNumber(),getUserName(),getPassword()));
 	}
 	}
 	
-	  /** getter and setter for credential injectin object .*/
+	  /** getter and setter for credential injection object .*/
 	public Credentials getCredential() {
 		return credential;
 	}

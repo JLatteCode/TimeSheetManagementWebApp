@@ -36,23 +36,23 @@
            <br> </br>  <br> </br>
            <br> </br> <br> </br>
  <h:outputLabel>empName: </h:outputLabel>
-<h:inputText id="empName"  label="#{msgs.empName}" required ="true" requiredMessage ="#{msgs.nonEmpty}"  value="#{empManager.name}">
+<h:inputText id="empName"  label="#{msgs.empName}"  value="#{empManager.name}">
 </h:inputText>
 <h:message for="empName" showSummary ="true" showDetail ="false" styleClass = "errorMessage" />
 <br> </br>
 
-<h:outputLabel>empNumber: </h:outputLabel>
-<h:inputText id="empNumber" value="#{empManager.empNumber}" required ="true" requiredMessage="#{msgs.nonEmpty}" label="#{msgs.empNumber}">
+<h:outputLabel>empNo:  </h:outputLabel>
+<h:inputText id="empNumber" value="#{empManager.empNumber}" label="#{msgs.empNumber}" required="true" requiredMessage="{msgs.empNoRequired}">
 </h:inputText>
-<h:message for="empNumber" showSummary ="false" showDetail="false" styleClass = "errorMessage"/>
+<h:message for="empNumber" showSummary ="true" showDetail="false" styleClass = "errorMessage"/>
                <br></br>
 <h:outputLabel>username: </h:outputLabel>
-<h:inputText id="username" value="#{empManager.userName}" required ="true" requiredMessage ="#{msgs.nonEmpty}" label="#{msgs.empUserName}" >
+<h:inputText id="username" value="#{empManager.userName}" label="#{msgs.empUserName}" >
 </h:inputText>
 <h:message for="username" showSummary ="true" showDetail="false" styleClass = "errorMessage"/>
 <br> </br>
 <h:outputLabel>Password: </h:outputLabel>
-<h:inputText id="Password" value="#{empManager.password}" required ="true" requiredMessage ="#{msgs.nonEmpty}" label="#{msgs.empUserPW}" >
+<h:inputText id="Password" value="#{empManager.password}" label="#{msgs.empUserPW}" >
 </h:inputText>
 <h:message for="Password" showSummary ="true" showDetail="false" styleClass = "errorMessage"/>
           <br></br>
@@ -61,7 +61,9 @@
 
        <h:form>
            <h:outputLabel>empNumber: </h:outputLabel>
-           <h:inputText id="empNumber" value="#{empManager.empNumber}"/>
+           <h:inputText id="deleteEmpNumber" value="#{empManager.empNumber}" label="#{msgs.deleteEmpNumber}" required="true" requiredMessage="{msgs.empNoRequired}">
+</h:inputText>
+<h:message for="deleteEmpNumber" showSummary ="true" showDetail="false" styleClass = "errorMessage"/>
                     <br></br>
            <h:commandButton id = "deleteuser" value="deleteuser"
                             action="#{empManager.deleteEmployee(empManager.empNumber)}"/>
@@ -70,19 +72,33 @@
        <h:form>
 <br></br>
 
+
+
+
+
+
        </h:form>
 
        <h:form>
-           <h:outputLabel>empNumber for edit:  </h:outputLabel>
-           <h:inputText id="editEmpNumber" value="#{empManager.empNumber}"/>
+           <h:outputLabel>empNo to edit:  </h:outputLabel>
+           <h:inputText id="editEmpNumber" value="#{empManager.empNumber}" label="#{msgs.editEmpNumber}" required="true" requiredMessage="{msgs.empNoRequired}">
+</h:inputText>
+<h:message for="editEmpNumber" showSummary ="true" showDetail="false" styleClass = "errorMessage"/>
        <br></br>
-           <h:outputLabel>empName:  </h:outputLabel>
-           <h:inputText id="editEmpName" value="#{empManager.name}"/>
+           <h:outputLabel>empName: </h:outputLabel>
+           <h:inputText id="editEmpName" value="#{empManager.name}" label="#{msgs.editEmpName}">
+</h:inputText>
+<h:message for="editEmpName" showSummary ="true" showDetail="false" styleClass = "errorMessage"/>
            <br></br>
-           <h:outputLabel>username:  </h:outputLabel>
-           <h:inputText id="editEmpUserName" value="#{empManager.userName}"/>
-           <h:outputLabel> Password:  </h:outputLabel>
-           <h:inputText id="editPassword" value="#{empManager.password}"/>
+           <h:outputLabel>username: </h:outputLabel>
+           <h:inputText id="editEmpUserName" value="#{empManager.userName}" label="#{msgs.editEmpUserName}">
+</h:inputText>
+<h:message for="editEmpUserName" showSummary ="true" showDetail="false" styleClass = "errorMessage"/>
+<br> </br>
+           <h:outputLabel value ="Password:"> </h:outputLabel> 
+           <h:inputText id="editEmpPW" value="#{empManager.password}" label="#{msgs.editEmpPW}">
+</h:inputText>
+<h:message for="editEmpPW" showSummary ="true" showDetail="false" styleClass = "errorMessage"/>
            <br></br>
            <h:commandButton id = "editcreateuser" value="EditUser"
                             action="#{empManager.editEmployee(empManager.empNumber)}"/>
@@ -90,9 +106,15 @@
 
        </h:form>
 
-           <h:outputText value="user list: "/>
+           
+   
+           
+           </div>
+           
+           
+           <h:outputText value="user list: "  style = "text-align:right;"/>
            <br></br>
-           <ui:repeat value="#{empManager.employees}" var="employee">
+           <ui:repeat value="#{empManager.employees}" var="employee" >
                <h:outputText value="userName: "/>
                <h:outputText value="#{employee.userName}"/>
                <h:outputText value=" "/>
@@ -100,7 +122,7 @@
                <h:outputText value="#{employee.empNumber}"/>
                <br></br>
            </ui:repeat>
-           </div>
+           
        </ui:define>
 
 

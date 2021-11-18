@@ -44,22 +44,18 @@ public class EmployeeManager implements Serializable {
 	/**
 	 *  Four fields for to set value of Employee variable.
 	 */
-//	@Size(min=1, message="{NoBlank}")
+//	@Size(min=1, message="{empNameRequired}")
 	@Pattern(regexp = "[a-zA-Z ]", message = "{empNameInvalid}")
-	@NotNull
 	private String name;
 	
 //	@Min( value = 1, message="{NoBlank}")
-	@NotNull
 	private int empNumber;
 	
-//	@Size(min=1, message="{NoBlank}")
-	@NotNull
+//	@Size(min=1, message="{userNameRequired}")
 	@Pattern(regexp = "[0-9a-zA-Z]", message = "{userNameInvalid}")
 	private String userName;
 	
-//	@Size(min=1, message="{NoBlank}")
-	@NotNull
+//	@Size(min=1, message="{PWRequired}")
 	@Pattern(regexp = "[0-9a-zA-Z]", message = "{PWInvalid}")
 	private String password;
 

@@ -36,23 +36,23 @@
            <br> </br>  <br> </br>
            <br> </br> <br> </br>
  <h:outputLabel>empName: </h:outputLabel>
-<h:inputText id="empName"  label="#{msgs.empName}" value="#{empManager.name}">
+<h:inputText id="empName"  label="#{msgs.empName}" required ="true" requiredMessage ="#{msgs.nonEmpty}"  value="#{empManager.name}">
 </h:inputText>
 <h:message for="empName" showSummary ="true" showDetail ="false" styleClass = "errorMessage" />
 <br> </br>
 
 <h:outputLabel>empNumber: </h:outputLabel>
-<h:inputText id="empNumber" value="#{empManager.empNumber}" label="#{msgs.empNumber}">
+<h:inputText id="empNumber" value="#{empManager.empNumber}" required ="true" requiredMessage="#{msgs.nonEmpty}" label="#{msgs.empNumber}">
 </h:inputText>
 <h:message for="empNumber" showSummary ="false" showDetail="false" styleClass = "errorMessage"/>
                <br></br>
 <h:outputLabel>username: </h:outputLabel>
-<h:inputText id="username" value="#{empManager.userName}" label="#{msgs.empUserName}" >
+<h:inputText id="username" value="#{empManager.userName}" required ="true" requiredMessage ="#{msgs.nonEmpty}" label="#{msgs.empUserName}" >
 </h:inputText>
 <h:message for="username" showSummary ="true" showDetail="false" styleClass = "errorMessage"/>
 <br> </br>
 <h:outputLabel>Password: </h:outputLabel>
-<h:inputText id="Password" value="#{empManager.password}" label="#{msgs.empUserPW}" >
+<h:inputText id="Password" value="#{empManager.password}" required ="true" requiredMessage ="#{msgs.nonEmpty}" label="#{msgs.empUserPW}" >
 </h:inputText>
 <h:message for="Password" showSummary ="true" showDetail="false" styleClass = "errorMessage"/>
           <br></br>
